@@ -5,6 +5,7 @@
   <artifactId>Cupcake-bot</artifactId>
   <version>1.0-SNAPSHOT</version>
   <build>
+    <finalName>Cupcake</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>

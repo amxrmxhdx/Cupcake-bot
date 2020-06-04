@@ -70,13 +70,14 @@ public class MessageListener implements MessageCreateListener {
                 event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, this emoji does not exist.");
                 return;
             }
-            CustomEmoji emoji = event.getServer().get().getCustomEmojiById(args[1]).get();
+            CustomEmoji emoji = event.getMessage().getCustomEmojis().get(0);
             if (emoji == null) {
                 event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, this emoji does not exist.");
                 return;
             }
             ServerConfig serverConfig = Main.config.servers.get(event.getServer().get().getIdAsString());
-            serverConfig.upvoteEmote = args[1];
+            serverConfig.upvoteEmote = emoji.getIdAsString();
+            event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, successfully changed the upvote-emote for this discord.");
             Main.config.save(new File("config.json"));
         }
         if (event.getMessageContent().startsWith("c!setdownvote")) {
@@ -89,13 +90,14 @@ public class MessageListener implements MessageCreateListener {
                 event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, this emoji does not exist.");
                 return;
             }
-            CustomEmoji emoji = event.getServer().get().getCustomEmojiById(args[1]).get();
+            CustomEmoji emoji = event.getMessage().getCustomEmojis().get(0);
             if (emoji == null) {
                 event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, this emoji does not exist.");
                 return;
             }
             ServerConfig serverConfig = Main.config.servers.get(event.getServer().get().getIdAsString());
-            serverConfig.downvoteEmote = args[1];
+            serverConfig.downvoteEmote = emoji.getIdAsString();
+            event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, successfully changed the downvote-emote for this discord.");
             Main.config.save(new File("config.json"));
         }
         if (event.getMessageContent().equalsIgnoreCase("c!info")) {
@@ -125,8 +127,8 @@ public class MessageListener implements MessageCreateListener {
                             "* c!removeUpvoteChannel - Remove the current channel from being an upvotechannel\n" +
                             "* c!info - show bot information\n" +
                             "* c!help -  this command\n" +
-                            "* c!setupvote <emoji-id> - set this servers upvote-emoji\n" +
-                            "* c!setdownvote <emoji-id> - set this servers downvote-emoji\n" +
+                            "* c!setupvote <emoji> - set this servers upvote-emoji\n" +
+                            "* c!setdownvote <emoji> - set this servers downvote-emoji\n" +
                             "```")
                     .addField("Invite me!", event.getApi().createBotInvite(Permissions.fromBitmask(1073743936)))
             );
