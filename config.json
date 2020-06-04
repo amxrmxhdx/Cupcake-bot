@@ -1,3 +1,31 @@
 {
-
+  "token": "NzE4MTUwODE2ODYyODMwNjU0.Xtkxlw.d8e8K34yGf1jNoaheSAIWHazHuM",
+  "servers": {
+    "681240503613653078": {
+      "upvoteChannels": [
+        "681245027489415206"
+      ],
+      "upvoteEmote": "718163352165285938",
+      "downvoteEmote": "718163352144052314"
+    },
+    "589958750866112512": {
+      "upvoteChannels": [
+        "589960214128885791"
+      ],
+      "upvoteEmote": "718163352165285938",
+      "downvoteEmote": "718163352144052314"
+    },
+    "668373148823060481": {
+      "upvoteChannels": [],
+      "upvoteEmote": "718163352165285938",
+      "downvoteEmote": "718163352144052314"
+    },
+    "566984938583228416": {
+      "upvoteChannels": [
+        "622734755909337099"
+      ],
+      "upvoteEmote": "718163352165285938",
+      "downvoteEmote": "718163352144052314"
+    }
+  }
 }

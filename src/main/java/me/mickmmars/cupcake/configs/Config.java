@@ -2,10 +2,7 @@ package me.mickmmars.cupcake.configs;
 
 import me.mickmmars.cupcake.Main;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -30,10 +27,9 @@ public class Config {
     public void save(File file) {
         try {
             String json = Main.gson.toJson(this);
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            file.delete();
-            file.createNewFile();
-            writer.write(json);
+            PrintWriter prw= new PrintWriter (file.getAbsolutePath());
+            prw.println(json);
+            prw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

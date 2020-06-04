@@ -7,6 +7,7 @@ import me.mickmmars.cupcake.listeners.GuildJoinListener;
 import me.mickmmars.cupcake.listeners.MessageListener;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
+import org.javacord.api.entity.activity.ActivityType;
 
 import java.io.File;
 import java.util.Scanner;
@@ -31,11 +32,16 @@ public class Main {
                 Scanner sn = new Scanner(System.in);
                 String input = sn.nextLine();
                 config.token = input;
+                config.save(cfgFile);
+            } else {
+                config = new Config(cfgFile);
             }
 
             String token = config.token;
 
             api = new DiscordApiBuilder().setToken(token).login().join();
+
+            api.updateActivity(ActivityType.LISTENING, "your heart <3");
 
             api.addListener(new MessageListener());
             api.addListener(new GuildJoinListener());
