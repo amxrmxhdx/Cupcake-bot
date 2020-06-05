@@ -20,7 +20,7 @@ public class MessageListener implements MessageCreateListener {
 
     @Override
     public void onMessageCreate(MessageCreateEvent event) {
-        if (event.getMessage().getAttachments().size() == 1 && event.getMessage().getReadableContent().length() == 0) {
+        if (event.getMessage().getAttachments().size() == 1) {
             ServerConfig serverConfig = Main.config.servers.get(event.getServer().get().getIdAsString());
             if (serverConfig.upvoteChannels.contains(event.getChannel().getIdAsString())) {
                 CustomEmoji upvote = event.getApi().getCustomEmojiById(serverConfig.upvoteEmote).get();
