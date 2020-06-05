@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.mickmmars.cupcake.configs.Config;
 import me.mickmmars.cupcake.listeners.GuildJoinListener;
+import me.mickmmars.cupcake.listeners.MemberJoinListener;
 import me.mickmmars.cupcake.listeners.MessageListener;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
@@ -45,6 +46,7 @@ public class Main {
 
             api.addListener(new MessageListener());
             api.addListener(new GuildJoinListener());
+            api.addListener(new MemberJoinListener());
 
         } catch (Exception e) {
             e.printStackTrace();

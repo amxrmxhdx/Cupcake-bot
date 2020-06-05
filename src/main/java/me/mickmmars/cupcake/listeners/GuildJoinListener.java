@@ -12,7 +12,7 @@ public class GuildJoinListener implements ServerJoinListener {
 
     @Override
     public void onServerJoin(ServerJoinEvent event) {
-        Main.config.servers.put(event.getServer().getIdAsString(), new ServerConfig(new ArrayList<>(), "718163352165285938", "718163352144052314"));
+        Main.config.servers.put(event.getServer().getIdAsString(), new ServerConfig(new ArrayList<>(), "718163352165285938", "718163352144052314", new ArrayList<>()));
         Main.config.save(new File("config.json"));
     }
 

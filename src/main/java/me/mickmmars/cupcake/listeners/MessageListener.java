@@ -6,12 +6,14 @@ import org.javacord.api.entity.emoji.CustomEmoji;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.permission.PermissionType;
 import org.javacord.api.entity.permission.Permissions;
+import org.javacord.api.entity.permission.Role;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
 import java.awt.*;
 import java.io.File;
+import java.util.StringJoiner;
 import java.util.concurrent.ExecutionException;
 
 public class MessageListener implements MessageCreateListener {
@@ -129,9 +131,49 @@ public class MessageListener implements MessageCreateListener {
                             "* c!help -  this command\n" +
                             "* c!setupvote <emoji> - set this servers upvote-emoji\n" +
                             "* c!setdownvote <emoji> - set this servers downvote-emoji\n" +
+                            "* c!addautorole <role1> [role2] [role3]... - add autoroles\n" +
+                            "* c!removeautorole <role1> [role2] [role3]... - remove autoroles\n" +
                             "```")
-                    .addField("Invite me!", event.getApi().createBotInvite(Permissions.fromBitmask(1073743936)))
+                    .addField("Invite me!", event.getApi().createBotInvite(Permissions.fromBitmask(1342310464)))
             );
+        }
+        if (event.getMessageContent().startsWith("c!addautorole")) {
+            if (!event.getServer().get().hasPermission(event.getServer().get().getMemberById(event.getMessageAuthor().getId()).get(), PermissionType.ADMINISTRATOR)) {
+                event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, you don't have enough permissions to perform this command.");
+                return;
+            }
+            if (event.getMessage().getMentionedRoles().size() == 0) {
+                event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, you need to give me at least one role.");
+                return;
+            }
+            ServerConfig serverConfig = Main.config.servers.get(event.getServer().get().getIdAsString());
+            StringJoiner rj = new StringJoiner(", ");
+            for (Role role : event.getMessage().getMentionedRoles()) {
+                if (!serverConfig.autoRoles.contains(role.getIdAsString()))
+                    serverConfig.autoRoles.add(role.getIdAsString());
+                rj.add(role.getMentionTag());
+            }
+            Main.config.save(new File("config.json"));
+            event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, Successfully added following roles as autoroles: " + rj.toString());
+        }
+        if (event.getMessageContent().startsWith("c!removeautorole")) {
+            if (!event.getServer().get().hasPermission(event.getServer().get().getMemberById(event.getMessageAuthor().getId()).get(), PermissionType.ADMINISTRATOR)) {
+                event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, you don't have enough permissions to perform this command.");
+                return;
+            }
+            if (event.getMessage().getMentionedRoles().size() == 0) {
+                event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, you need to give me at least one role.");
+                return;
+            }
+            ServerConfig serverConfig = Main.config.servers.get(event.getServer().get().getIdAsString());
+            StringJoiner rj = new StringJoiner(", ");
+            for (Role role : event.getMessage().getMentionedRoles()) {
+                serverConfig.autoRoles.remove(role.getIdAsString());
+                if (serverConfig.autoRoles.contains(role.getIdAsString()))
+                    rj.add(role.getMentionTag());
+            }
+            Main.config.save(new File("config.json"));
+            event.getChannel().sendMessage("<@" + event.getMessageAuthor().getId() + ">, Successfully removed following roles from being autoroles: " + rj.toString());
         }
 
     }
