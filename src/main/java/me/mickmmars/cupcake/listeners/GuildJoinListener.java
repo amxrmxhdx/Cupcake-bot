@@ -7,12 +7,13 @@ import org.javacord.api.listener.server.ServerJoinListener;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GuildJoinListener implements ServerJoinListener {
 
     @Override
     public void onServerJoin(ServerJoinEvent event) {
-        Main.config.servers.put(event.getServer().getIdAsString(), new ServerConfig(new ArrayList<>(), "718163352165285938", "718163352144052314", new ArrayList<>()));
+        Main.config.servers.put(event.getServer().getIdAsString(), new ServerConfig(new ArrayList<>(), "718163352165285938", "718163352144052314", new ArrayList<>(), new ArrayList<>(), new HashMap<>()));
         Main.config.save(new File("config.json"));
     }
 
